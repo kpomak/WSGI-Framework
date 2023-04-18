@@ -10,9 +10,12 @@ app = Rainbow(url_patterns, context_gen)
 app = WhiteNoise(app)
 app.add_files('./static', 'static/')
 
-server = make_server(SERVER_IP_ADDRESS, SERVER_PORT, app)
-print(f'Server started on {SERVER_IP_ADDRESS or "0.0.0.0"}:{SERVER_PORT}')
-try:
-  server.serve_forever()
-except KeyboardInterrupt:
-  print('\nServer is shutting down')
+if __name__ == "__main__":
+    server = make_server(SERVER_IP_ADDRESS, SERVER_PORT, app)
+    print(f'Server started on {SERVER_IP_ADDRESS or "0.0.0.0"}:{SERVER_PORT}')
+    try:
+        server.serve_forever()
+    except KeyboardInterrupt:
+        print('\nServer is shutting down')
+
+
