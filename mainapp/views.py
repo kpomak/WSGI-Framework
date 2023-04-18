@@ -1,15 +1,20 @@
 from config.generic import render
 
 
-class Index:
+class TemplateView:
+    template_name = "index.html"
+
     def __call__(self, context):
-        return '200 OK', render('index.html', context=context)
+        return '200 OK', render(self.template_name, context=context)
 
 
-class About:
-    def __call__(self, context):
-        return '200 OK', render('about.html', context=context)
+class IndexView(TemplateView):
+    pass
+
+
+class AboutView(TemplateView):
+    template_name = "about.html"
     
-class Contacts:
-    def __call__(self, context):
-        return '200 OK', render('contacts.html', context=context)
+
+class ContactsView(TemplateView):
+    template_name = "contacts.html"
