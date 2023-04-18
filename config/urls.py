@@ -1,5 +1,5 @@
 from datetime import date
-from mainapp.views import Index, About
+from mainapp.views import Index, About, Contacts
 
 
 def today(context):
@@ -15,4 +15,5 @@ context_gen = (today, hello_world)
 url_patterns = {
     '/': Index(),
     '/about/': About(),
+    '/contacts/': Contacts(),
 }

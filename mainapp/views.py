@@ -9,3 +9,7 @@ class Index:
 class About:
     def __call__(self, context):
         return '200 OK', render('about.html', context=context)
+    
+class Contacts:
+    def __call__(self, context):
+        return '200 OK', render('contacts.html', context=context)
