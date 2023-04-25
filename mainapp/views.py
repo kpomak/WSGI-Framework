@@ -18,3 +18,6 @@ class AboutView(TemplateView):
 
 class ContactsView(TemplateView):
     template_name = "contacts.html"
+
+
+

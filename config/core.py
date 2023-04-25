@@ -9,9 +9,10 @@ class Rainbow:
         self.urls = urls
         self.controllers = controllers
 
-    def __call__(self, request, response):
 
-        path = request['PATH_INFO']
+    def __call__(self, environ, response):
+
+        path = environ['PATH_INFO']
 
         if not path.endswith('/'):
             path = f'{path}/'
@@ -21,11 +22,12 @@ class Rainbow:
             view = self.urls[path]
         else:
             view = PageNotFound404()
-        context = {}
+            
+        request = {}
 
-        for front in self.controllers:
-            front(context)
+        for controller in self.controllers:
+            controller(request)
 
-        code, body = view(context)
+        code, body = view(request)
         response(code, [('Content-Type', 'text/html')])
         return [body.encode('utf-8')]
