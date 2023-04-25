@@ -8,7 +8,7 @@ from config.urls import url_patterns, context_gen
 
 app = Rainbow(url_patterns, context_gen)
 app = WhiteNoise(app)
-app.add_files('./static', 'static/')
+app.add_files("./static", "static/")
 
 if __name__ == "__main__":
     server = make_server(SERVER_IP_ADDRESS, SERVER_PORT, app)
@@ -16,6 +16,4 @@ if __name__ == "__main__":
     try:
         server.serve_forever()
     except KeyboardInterrupt:
-        print('\nServer is shutting down')
-
-
+        print("\nServer is shutting down")

@@ -5,7 +5,7 @@ class TemplateView:
     template_name = "index.html"
 
     def __call__(self, context):
-        return '200 OK', render(self.template_name, context=context)
+        return "200 OK", render(self.template_name, context=context)
 
 
 class IndexView(TemplateView):
@@ -14,10 +14,7 @@ class IndexView(TemplateView):
 
 class AboutView(TemplateView):
     template_name = "about.html"
-    
+
 
 class ContactsView(TemplateView):
     template_name = "contacts.html"
-
-
-
