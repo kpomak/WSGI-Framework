@@ -1,7 +1,10 @@
+from urllib.parse import unquote
+
+
 def parse_request_params(params):
     data = {}
     if params:
-        for param in params.split("&"):
+        for param in unquote(params).split("&"):
             key, value = param.split("=")
             data[key] = value
     return data

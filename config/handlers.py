@@ -1,11 +1,10 @@
 from config.utils import parse_request_params
-from urllib.parse import unquote
 
 
 class GetHandler:
     @staticmethod
     def get_params(env):
-        query_string = unquote(env["QUERY_STRING"])
+        query_string = env["QUERY_STRING"]
         return parse_request_params(query_string)
 
 
@@ -22,8 +21,7 @@ class PostHandler:
     def parse_data(self, data):
         result = {}
         if data:
-            data_str = unquote(data)
-            result = self.parse_request_params(data_str)
+            result = parse_request_params(data.decode("utf-8"))
         return result
 
     def get_params(self, environ):
