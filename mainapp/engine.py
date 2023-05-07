@@ -15,7 +15,10 @@ class Course:
         self.category.courses.append(self)
 
     def clone(self):
-        return deepcopy(self)
+        course = deepcopy(self)
+        course.name = f'{self.name}_copy'
+        self.category.courses.append(course)
+        return course
 
 
 class OfflineCourse(Course):
@@ -56,34 +59,36 @@ class Category:
 
 class Engine:
     def __init__(self):
-        self.users = []
-        self.courses = []
-        self.categories = []
+        self.state = {
+            'users': [], 
+            'categories': [],
+        }
 
 
     def create_user(self, username):
         user = User(username)
-        self.users.append(user)
+        self.state['users'].append(user)
         return user
 
 
     def create_category(self, name):
         category = Category(name)
-        self.categories.append(category)
+        self.state['categories'].append(category)
         return category
 
     def find_category_by_id(self, id):
-        for item in self.categories:
+        for item in self.stste['categories']:
             if item.id == id:
                 return item
         raise Exception(f'Category {id=} not found')
 
-    @staticmethod
-    def create_course(course_type, name, category, **kwargs):
-        return CourseFactory.create(course_type, name, category, **kwargs)
+
+    def create_course(self, course_type, name, category, **kwargs):
+        course = CourseFactory.create(course_type, name, category, **kwargs)
+        return course
 
     def get_course(self, name):
-        for item in self.courses:
+        for item in self.state['courses']:
             if item.name == name:
                 return item
         return None
@@ -113,4 +118,5 @@ class Logger(metaclass=BaseLogger):
 
     def log(self, message):
         with open(f'./var/log/{self.name}.log', 'a', encoding='utf-8') as f:
-            f.write(f'[{datetime.now()}] : {message}')
+            f.write(f'[{datetime.now()}] : {message}\n')
+
