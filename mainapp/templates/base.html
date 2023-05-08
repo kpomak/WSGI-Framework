@@ -2,7 +2,11 @@
 <html>
 
 <head>
-    <title>colour_purple</title>
+    <title>
+        {% block title %}
+        colour_purple
+        {% endblock title %}
+    </title>
     <meta name="description" content="website description" />
     <meta name="keywords" content="website keywords, website keywords" />
     <meta http-equiv="content-type" content="text/html" charset="UTF-8" />
@@ -20,7 +24,9 @@
             </div>
             <div id="menubar">
                 <ul id="menu">
-                    <li class="selected"><a href="/">Home</a></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/courses/">Courses</a></li>
+                    <li><a href="/categories/">Categories</a></li>
                     <li><a href="/contacts/">Contact Us</a></li>
                     <li><a href="/about/">About</a></li>
                 </ul>

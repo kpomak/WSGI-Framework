@@ -1,5 +1,6 @@
 from datetime import date
-from mainapp.views import IndexView, AboutView, ContactsView
+
+import mainapp.views as mainapp
 
 
 def today(context):
@@ -13,7 +14,12 @@ def hello_world(context):
 context_gen = (today, hello_world)
 
 url_patterns = {
-    "/": IndexView(),
-    "/about/": AboutView(),
-    "/contacts/": ContactsView(),
+    "/": mainapp.IndexView(),
+    "/about/": mainapp.AboutView(),
+    "/contacts/": mainapp.ContactsView(),
+    "/courses/": mainapp.CoursesListView(),
+    "/courses/create/": mainapp.CreateCourseView(),
+    "/courses/copy/": mainapp.CopyCourseView(),
+    "/categories/": mainapp.CategoryListView(),
+    "/categories/create/": mainapp.CreateCategoryView(),
 }
