@@ -7,7 +7,7 @@ class User:
 
 
 class Course:
-    def __init__(self, name, category):
+    def __init__(self, name, category, **kwargs):
         self.name = name
         self.category = category
         self.category.courses.append(self)
@@ -20,13 +20,13 @@ class Course:
 
 
 class OfflineCourse(Course):
-    def __init__(self, name, category, place):
+    def __init__(self, name, category, place=None, **kwargs):
         super().__init__(name, category)
         self.place = place
 
 
 class OnlineCourse(Course):
-    def __init__(self, name, category, platform):
+    def __init__(self, name, category, platform=None, **kwargs):
         super().__init__(name, category)
         self.platform = platform
 

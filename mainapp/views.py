@@ -65,15 +65,17 @@ class CreateCourseView(TemplateView):
             try:
                 engine.create_course(category=category, **data)
             except Exception:
-                pass
-            request["state"] = engine.state
-            logger.log(f'request {request["method"]} create course {data}')
+                return f"{HTTPStatus.BAD_REQUEST} BAD REQUEST", render(
+                    "courses_list.html", context=request
+                )
+            else:
+                request["state"] = engine.state
+                logger.log(f'request {request["method"]} create course {data}')
             return f"{HTTPStatus.CREATED} CREATED", render(
                 "courses_list.html", context=request
             )
-
         else:
-            super().__call__(request)
+            return super().__call__(request)
 
 
 class CoursesListView(TemplateView):
@@ -88,4 +90,4 @@ class CopyCourseView(TemplateView):
         name = data.get("name")
         course = engine.get_course(name)
         course.clone()
-        super().__call__(request)
+        return super().__call__(request)

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}
+Courses
+{% endblock %}
+
+{% block body %}
+
+<h1>Create course</h1>
+<form method="post">
+  <div class="form_settings">
+    <input type="hidden" name="category_id" value="{{context.params.category_id}}">
+    <p><span>Course type</span><select name="course_type">
+        <option value="online">on-line</option>
+        <option value="offline">off-line</option>
+      </select></p>
+    <p><span>Course name</span><input type="text" name="name" placeholder="Course name">
+    <p><span>Course location</span><input type="text" name="place" placeholder="Subway station">
+    <p><span>On-line web-platform</span><input type="text" name="platform" placeholder="Zoom">
+    <p style="padding-top: 15px"><span>&nbsp;</span><input class="submit" type="submit" name="submitted"
+        value="Create" />
+  </div>
+
+</form>
+
+{% endblock %}

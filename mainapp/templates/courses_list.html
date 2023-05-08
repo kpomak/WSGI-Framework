@@ -10,7 +10,6 @@ Courses
   <br>
   {% for category in context.state.categories %}
   <h3>{{category.name}}</h3>
-  <a href="/create-course/?category_id={{category.id}}">Create course</a>
   {% for course in category.courses %}
   <ul>
     <li>
@@ -23,6 +22,8 @@ Courses
     </li>
   </ul>
   {% endfor %}
+
+  <a href="/courses/create/?category_id={{category.id}}">Create course</a>
 
   {% endfor %}
 </div>

@@ -19,7 +19,7 @@ class Engine:
         return category
 
     def find_category_by_id(self, id):
-        for item in self.stste["categories"]:
+        for item in self.state["categories"]:
             if item.id == id:
                 return item
         raise Exception(f"Category {id=} not found")
@@ -29,7 +29,8 @@ class Engine:
         return course
 
     def get_course(self, name):
-        for item in self.state["courses"]:
-            if item.name == name:
-                return item
+        for category in self.state["categories"]:
+            for course in category.courses:
+                if course.name == name:
+                    return course
         return None
