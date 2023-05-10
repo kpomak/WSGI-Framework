@@ -1,7 +1,7 @@
 from http import HTTPStatus
 
 from config.generic import render
-from config.utils import Logger, route
+from config.utils import Logger, route, debug
 from mainapp.engine import Engine
 
 engine = Engine()
@@ -31,6 +31,7 @@ class AboutView(TemplateView):
 class ContactsView(TemplateView):
     template_name = "contacts.html"
 
+    @debug
     def __call__(self, request):
         if request["method"] == "POST":
             message = request["params"]
@@ -42,6 +43,7 @@ class ContactsView(TemplateView):
 class CreateCategoryView(TemplateView):
     template_name = "create_category.html"
 
+    @debug
     def __call__(self, request):
         if request["method"] == "POST":
             data = request["params"]
@@ -65,6 +67,7 @@ class CategoryListView(TemplateView):
 class CreateCourseView(TemplateView):
     template_name = "create_course.html"
 
+    @debug
     def __call__(self, request):
         if request["method"] == "POST":
             data = request["params"]
@@ -94,6 +97,7 @@ class CoursesListView(TemplateView):
 class CopyCourseView(TemplateView):
     template_name = "courses_list.html"
 
+    @debug
     def __call__(self, request):
         data = request["params"]
         name = data.get("name")

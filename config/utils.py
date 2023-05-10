@@ -1,5 +1,6 @@
 from urllib.parse import unquote
 from datetime import datetime
+from time import perf_counter
 
 from config.urls import url_patterns
 
@@ -52,6 +53,17 @@ def route(path):
         return _wrapper
 
     return wrapper
+
+
+def debug(func):
+    def timed(*args, **kwargs):
+        start = perf_counter()
+        result = func(*args, **kwargs)
+        end = perf_counter() - start
+        print(f"debug -> {func.__qualname__} done {end:2.2f} ms")
+        return result
+
+    return timed
 
 
 if __name__ == "__main__":
