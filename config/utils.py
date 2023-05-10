@@ -1,6 +1,8 @@
 from urllib.parse import unquote
 from datetime import datetime
 
+from config.urls import url_patterns
+
 
 def parse_request_params(params):
     data = {}
@@ -36,6 +38,20 @@ class Logger(metaclass=BaseLogger):
     def log(self, message):
         with open(f"./var/log/{self.name}.log", "a", encoding="utf-8") as f:
             f.write(f"[{datetime.now()}] : {message}\n")
+
+
+def route(path):
+    def wrapper(cls):
+        def _wrapper(*args, **kwargs):
+            return url_patterns[path](*args, **kwargs)
+
+        view = url_patterns.get(path)
+        if not view:
+            url_patterns[path] = cls()
+
+        return _wrapper
+
+    return wrapper
 
 
 if __name__ == "__main__":

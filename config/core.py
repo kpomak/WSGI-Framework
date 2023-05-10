@@ -1,3 +1,5 @@
+from mainapp import views
+
 from config.handlers import params_handler
 
 
@@ -20,7 +22,6 @@ class Rainbow:
         request["method"] = method
 
         request["params"] = params_handler[method]().get_params(environ)
-
         if not path.endswith("/"):
             path = f"{path}/"
 
