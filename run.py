@@ -1,12 +1,12 @@
 from wsgiref.simple_server import make_server
 from whitenoise import WhiteNoise
 
-from config.core import Rainbow
-from config.settings import SERVER_IP_ADDRESS, SERVER_PORT
+from config.core import RainbowFucktory
+from config.settings import SERVER_IP_ADDRESS, SERVER_PORT, RAINBOW_TYPE
 from config.urls import url_patterns, context_gen
 
 
-app = Rainbow(url_patterns, context_gen)
+app = RainbowFucktory.create(RAINBOW_TYPE, url_patterns, context_gen)
 app = WhiteNoise(app)
 app.add_files("./static", "static/")
 

@@ -8,7 +8,7 @@ Courses
 <div>
 
   <br>
-  {% for category in context.state.categories %}
+  {% for category in context.state.categories.values() recursive %}
   <h3>{{category.name}}</h3>
   {% for course in category.courses %}
   <ul>
@@ -24,7 +24,9 @@ Courses
   {% endfor %}
 
   <a href="/courses/create/?category_id={{category.id}}">Create course</a>
-
+  {% if category.categories %}
+  {{ loop(category.categories.values() )}}
+  {% endif %}
   {% endfor %}
 </div>
 {% endblock %}

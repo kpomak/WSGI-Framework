@@ -8,15 +8,21 @@ Categories
 <h1>Categories</h1>
 <ul>
 
-	{% for item in context.state.categories %}
-	<li>
-		<h4>{{item.name}}</h4>
-		<span>courses: {{item.course_count()}}</span>
-	</li>
-	{% endfor %}
+  {% for key, item in context.state.categories.items() recursive %}
+  <li>
+    <h4>{{item.name}}</h4>
+    <div>courses: {{item.course_count()}}</div>
+    <div><a href="/categories/create/?category_id={{item.id}}">Create category</a></div>
+    {% if item.categories %}
+    <ul>
+      {{ loop(item.categories.items())}}
+    </ul>
+    {% endif %}
+  </li>
+  {% endfor %}
 </ul>
 
 <div>
-	<li><a href="/categories/create/">Create cathegory</a></li>
+  <a href="/categories/create/">Create category</a>
 </div>
 {% endblock %}
