@@ -8,10 +8,12 @@ Categories
 <h1>Categories</h1>
 <ul>
 
-	{% for item in context.state.categories %}
+	{% for key, item in context.state.categories.items() %}
 	<li>
 		<h4>{{item.name}}</h4>
-		<span>courses: {{item.course_count()}}</span>
+		<p>courses: {{item.course_count()}}</p>
+		<a href="/categories/create/?category_id={{item.id}}">Create cathegory</a>
+
 	</li>
 	{% endfor %}
 </ul>

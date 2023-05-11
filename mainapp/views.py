@@ -48,8 +48,14 @@ class CreateCategoryView(TemplateView):
         if request["method"] == "POST":
             data = request["params"]
             name = data.get("name")
+            category_id = data.get('category_id')
+            if category_id:
+                category_id = int(category_id)
+                category = engine.find_category_by_id(category_id, engine.state["categories"])
+            else:
+                category = None
             if name:
-                engine.create_category(name)
+                engine.create_category(name, category)
             logger.log(f'request {request["method"]} create category {data}')
             return f"{HTTPStatus.CREATED} CREATED", render(
                 "index.html", context=request

@@ -49,7 +49,12 @@ class Category:
         self.id = Category.id_counter
         Category.id_counter += 1
         self.name = name
+        self.categories = {}
         self.courses = []
 
     def course_count(self):
-        return len(self.courses)
+        count = len(self.courses)
+        if self.categories:
+            for category in self.categories.values():
+                count += category.course_count()
+        return count
