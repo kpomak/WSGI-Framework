@@ -48,10 +48,12 @@ class CreateCategoryView(TemplateView):
         if request["method"] == "POST":
             data = request["params"]
             name = data.get("name")
-            category_id = data.get('category_id')
+            category_id = data.get("category_id")
             if category_id:
                 category_id = int(category_id)
-                category = engine.find_category_by_id(category_id, engine.state["categories"])
+                category = engine.find_category_by_id(
+                    category_id, engine.state["categories"]
+                )
             else:
                 category = None
             if name:
@@ -77,7 +79,9 @@ class CreateCourseView(TemplateView):
     def __call__(self, request):
         if request["method"] == "POST":
             data = request["params"]
-            category = engine.find_category_by_id(int(data.get("category_id")))
+            category = engine.find_category_by_id(
+                int(data.get("category_id")), engine.state["categories"]
+            )
             try:
                 engine.create_course(category=category, **data)
             except Exception:
@@ -107,6 +111,7 @@ class CopyCourseView(TemplateView):
     def __call__(self, request):
         data = request["params"]
         name = data.get("name")
-        course = engine.get_course(name)
-        course.clone()
+        course = engine.get_course(engine.state["categories"], name)
+        new_cource = course.clone()
+        course.category.courses.append(new_cource)
         return super().__call__(request)

@@ -17,10 +17,9 @@ class Engine:
         new_category = Category(name)
         if category:
             category.categories[new_category.id] = new_category
-        else: 
+        else:
             self.state["categories"][new_category.id] = new_category
         return new_category
-
 
     def find_category_by_id(self, id, categories):
         for key, category in categories.items():
@@ -34,7 +33,7 @@ class Engine:
                     pass
             if guess:
                 return guess
-        else:          
+        else:
             raise Exception(f"Category {id=} not found")
 
     def create_course(self, course_type, name, category, **kwargs):
@@ -42,6 +41,8 @@ class Engine:
         return course
 
     def get_course(self, categories, name):
+        while name.endswith("_copy"):
+            name = name[:-5]
         for category in categories.values():
             for course in category.courses:
                 if course.name == name:

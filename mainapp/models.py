@@ -15,7 +15,6 @@ class Course:
     def clone(self):
         course = deepcopy(self)
         course.name = f"{self.name}_copy"
-        self.category.courses.append(course)
         return course
 
 
