@@ -2,8 +2,10 @@ from copy import deepcopy
 
 
 class User:
-    def __init__(self, username):
+    def __init__(self, username, email, phone):
         self.username = username
+        self.email = email
+        self.phone = phone
 
 
 class Course:

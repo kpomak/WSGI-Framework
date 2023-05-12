@@ -8,8 +8,8 @@ class Engine:
             "categories": {},
         }
 
-    def create_user(self, username):
-        user = User(username)
+    def create_user(self, username, email, phone):
+        user = User(username=username, email=email, phone=phone)
         self.state["users"].append(user)
         return user
 
