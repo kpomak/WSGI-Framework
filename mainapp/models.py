@@ -2,7 +2,11 @@ from copy import deepcopy
 
 
 class User:
+    count = 0
+
     def __init__(self, username, email, phone):
+        self.id = User.count
+        User.count += 1
         self.username = username
         self.email = email
         self.phone = phone

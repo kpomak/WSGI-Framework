@@ -4,13 +4,13 @@ from mainapp.models import User, Category, CourseFactory
 class Engine:
     def __init__(self):
         self.state = {
-            "users": [],
+            "users": {},
             "categories": {},
         }
 
     def create_user(self, username, email, phone):
         user = User(username=username, email=email, phone=phone)
-        self.state["users"].append(user)
+        self.state["users"][user.id] = user
         return user
 
     def create_category(self, name, category=None):

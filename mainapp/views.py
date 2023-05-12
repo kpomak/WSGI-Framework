@@ -136,3 +136,8 @@ class RegisterView(TemplateView):
                     "index.html", context=request
                 )
         return super().__call__(request)
+
+
+@route("/students/")
+class CoursesListView(TemplateView):
+    template_name = "students_list.html"

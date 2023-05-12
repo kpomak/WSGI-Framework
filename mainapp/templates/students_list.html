@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}
+Students
+{% endblock %}
+{% block body %}
+<h1>Students</h1>
+
+<div>
+
+  <br>
+  {% for user in context.state.users.values() %}
+  <h3>{{user.username}}</h3>
+  <ul>
+    <li><span>user-ID:&nbsp;</span> {{user.id}}</li>
+    <li><span>email:&nbsp;</span>{{user.email}}</li>
+    <li><span>phone:&nbsp;</span>{{user.phone}}</li>
+  </ul>
+  {% endfor %}
+</div>
+{% endblock %}
