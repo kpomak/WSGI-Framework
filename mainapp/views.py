@@ -112,8 +112,7 @@ class CopyCourseView(TemplateView):
         data = request["params"]
         name = data.get("name")
         course = engine.get_course(engine.state["categories"], name)
-        new_cource = course.clone()
-        course.category.courses.append(new_cource)
+        course.clone()
         return super().__call__(request)
 
 
@@ -141,3 +140,24 @@ class RegisterView(TemplateView):
 @route("/students/")
 class CoursesListView(TemplateView):
     template_name = "students_list.html"
+
+
+@route("/students/subscribe/")
+class SubscribeView(TemplateView):
+    template_name = "subscribe_course.html"
+
+    def __call__(self, request):
+        if request["method"] == "POST":
+            data = request["params"]
+            course_name = data.get("course")
+            student_id = data.get("student_id")
+            if course_name and student_id:
+                course = engine.get_course(engine.state["categories"], course_name)
+                student = engine.state["users"][int(student_id)]
+                if student not in course.students:
+                    course.students.append(student)
+            return f"{HTTPStatus.CREATED} CREATED", render(
+                "index.html", context=request
+            )
+        request["courses"] = engine.get_courses(engine.state["categories"])
+        return super().__call__(request)

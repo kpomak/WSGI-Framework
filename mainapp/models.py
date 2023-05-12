@@ -15,12 +15,16 @@ class User:
 class Course:
     def __init__(self, name, category, **kwargs):
         self.name = name
+        self.students = []
         self.category = category
         self.category.courses.append(self)
 
     def clone(self):
         course = deepcopy(self)
         course.name = f"{self.name}_copy"
+        course.category = self.category
+        self.category.courses.append(course)
+        course.students.clear()
         return course
 
 

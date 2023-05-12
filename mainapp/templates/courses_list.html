@@ -14,8 +14,16 @@ Courses
   <ul>
     <li>
       <span>
-        {{course.platform}} {{course.name}} {{course.place}}
+        {{course.name}} on {{course.platform}}{{course.place}}
       </span>
+      {% if course.students %}
+      <ul>
+        <span>Students:</span>
+        {% for student in course.students %}
+        <li>{{student.username}}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
       <div>
         <a href="/courses/copy?name={{course.name}}">Copy course</a>
       </div>

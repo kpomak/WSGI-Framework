@@ -41,14 +41,20 @@ class Engine:
         return course
 
     def get_course(self, categories, name):
-        while name.endswith("_copy"):
-            name = name[:-5]
         for category in categories.values():
             for course in category.courses:
                 if course.name == name:
                     return course
-                if category.categories:
-                    course = self.get_course(category.categories, name)
-                    if course:
-                        return course
+            if category.categories:
+                course = self.get_course(category.categories, name)
+                if course:
+                    return course
         return None
+
+    def get_courses(self, categories):
+        course_list = []
+        for category in categories.values():
+            course_list.extend(category.courses)
+            if category.categories:
+                course_list.extend(self.get_courses(category.categories))
+        return course_list
