@@ -19,6 +19,10 @@ class Course:
         self.category = category
         self.category.courses.append(self)
 
+    def __iter__(self):
+        for student in self.students:
+            yield student
+
     def clone(self):
         course = deepcopy(self)
         course.name = f"{self.name}_copy"
@@ -60,6 +64,10 @@ class Category:
         self.name = name
         self.categories = {}
         self.courses = []
+
+    def __iter__(self):
+        for course in self.courses:
+            yield course
 
     def course_count(self):
         count = len(self.courses)
