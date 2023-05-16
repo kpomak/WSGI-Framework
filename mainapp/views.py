@@ -3,6 +3,7 @@ from http import HTTPStatus
 from config.generic import render
 from config.utils import Logger, route, debug
 from mainapp.engine import Engine
+from mainapp.serializers import CourseSerializer
 
 engine = Engine()
 logger = Logger(f"{__name__}")
@@ -161,3 +162,12 @@ class SubscribeView(TemplateView):
             )
         request["courses"] = engine.get_courses(engine.state["categories"])
         return super().__call__(request)
+
+
+@route("/api/courses/")
+class CourseViewSet:
+    def __call__(self, request):
+        return (
+            "200 OK",
+            CourseSerializer(engine.get_courses(engine.state["categories"])).save(),
+        )

@@ -11,6 +11,9 @@ class User:
         self.email = email
         self.phone = phone
 
+    # def __repr__(self):
+    #     return f"User #{self.id}"
+
 
 class Course:
     def __init__(self, name, category, **kwargs):
@@ -22,6 +25,9 @@ class Course:
     def __iter__(self):
         for student in self.students:
             yield student
+
+    # def __repr__(self):
+    #     return f"{self.name}"
 
     def clone(self):
         course = deepcopy(self)
@@ -68,6 +74,9 @@ class Category:
     def __iter__(self):
         for course in self.courses:
             yield course
+
+    def __repr__(self):
+        return f"Category {self.name}"
 
     def course_count(self):
         count = len(self.courses)
