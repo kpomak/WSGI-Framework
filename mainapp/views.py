@@ -4,9 +4,12 @@ from config.generic import render
 from config.utils import Logger, route, debug
 from mainapp.engine import Engine
 from mainapp.serializers import CourseSerializer
+from mainapp.middleware import EmailNotifier, SmsNotifier
 
 engine = Engine()
 logger = Logger(f"{__name__}")
+email_notifier = EmailNotifier()
+sms_notifier = SmsNotifier()
 
 
 class TemplateView:
@@ -84,12 +87,13 @@ class CreateCourseView(TemplateView):
                 int(data.get("category_id")), engine.state["categories"]
             )
             try:
-                engine.create_course(category=category, **data)
+                course = engine.create_course(category=category, **data)
             except Exception:
                 return f"{HTTPStatus.BAD_REQUEST} BAD REQUEST", render(
                     "courses_list.html", context=request
                 )
             else:
+                course.observers.extend((email_notifier, sms_notifier))
                 request["state"] = engine.state
                 logger.log(f'request {request["method"]} create course {data}')
             return f"{HTTPStatus.CREATED} CREATED", render(
@@ -156,7 +160,7 @@ class SubscribeView(TemplateView):
                 course = engine.get_course(engine.state["categories"], course_name)
                 student = engine.state["users"][int(student_id)]
                 if student not in course.students:
-                    course.students.append(student)
+                    course.add_student(student)
             return f"{HTTPStatus.CREATED} CREATED", render(
                 "index.html", context=request
             )

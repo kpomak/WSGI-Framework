@@ -1,5 +1,7 @@
 from copy import deepcopy
 
+from mainapp.middleware import Subject
+
 
 class User:
     count = 0
@@ -11,12 +13,10 @@ class User:
         self.email = email
         self.phone = phone
 
-    # def __repr__(self):
-    #     return f"User #{self.id}"
 
-
-class Course:
+class Course(Subject):
     def __init__(self, name, category, **kwargs):
+        super().__init__()
         self.name = name
         self.students = []
         self.category = category
@@ -26,9 +26,6 @@ class Course:
         for student in self.students:
             yield student
 
-    # def __repr__(self):
-    #     return f"{self.name}"
-
     def clone(self):
         course = deepcopy(self)
         course.name = f"{self.name}_copy"
@@ -36,6 +33,10 @@ class Course:
         self.category.courses.append(course)
         course.students.clear()
         return course
+
+    def add_student(self, student):
+        self.students.append(student)
+        self.notify()
 
 
 class OfflineCourse(Course):
