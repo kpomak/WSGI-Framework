@@ -25,7 +25,6 @@ class TemplateView:
 
 class ListView(TemplateView):
     queryset = engine.state
-    template_name = "list.html"
     context_name = "state"
 
     def get_queryset(self):
@@ -33,3 +32,21 @@ class ListView(TemplateView):
 
     def get_context(self, request):
         request[self.context_name] = self.get_queryset()
+
+
+class CreateView(ListView):
+    @staticmethod
+    def get_request_data(request):
+        return request["params"]
+
+    def create_instanse(self, data):
+        pass
+
+    def __call__(self, request):
+        if request["method"] == "POST":
+            data = self.get_request_data(request)
+            self.create_instanse(data)
+            logger.log(f'request {request["method"]} create instanse from {data}')
+            return self.render_template(request)
+        else:
+            return super().__call__(request)

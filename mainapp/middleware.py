@@ -19,12 +19,12 @@ class Subject:
 class SmsNotifier(Observer):
     def update(self, subject):
         print(
-            f"SMS -> {subject.students[-1].username} has joined to course {subject.name}"
+            f"SMS - - {subject.students[-1].username} has joined to course {subject.name}"
         )
 
 
 class EmailNotifier(Observer):
     def update(self, subject):
         print(
-            f"Email -> {subject.students[-1].username} has joined to course {subject.name}"
+            f"Email - - {subject.students[-1].username} has joined to course {subject.name}"
         )
