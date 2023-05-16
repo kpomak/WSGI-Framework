@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}
+Registration
+{% endblock %}
+
+{% block body %}
+<h1>Registration</h1>
+<form method="post">
+  <div class="form_settings">
+    <p><span>Username</span><input type="text" name="username" placeholder="Username">
+    <p><span>Email</span><input type="text" name="email" placeholder="user@email.com">
+    <p><span>Phone number</span><input type="text" name="phone" placeholder="+19995555555">
+    <p style="padding-top: 15px"><span>&nbsp;</span><input class="submit" type="submit" name="submitted"
+        value="Sign up" />
+  </div>
+</form>
+{% endblock %}

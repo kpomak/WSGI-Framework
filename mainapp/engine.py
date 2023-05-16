@@ -4,13 +4,13 @@ from mainapp.models import User, Category, CourseFactory
 class Engine:
     def __init__(self):
         self.state = {
-            "users": [],
+            "users": {},
             "categories": {},
         }
 
-    def create_user(self, username):
-        user = User(username)
-        self.state["users"].append(user)
+    def create_user(self, username, email, phone):
+        user = User(username=username, email=email, phone=phone)
+        self.state["users"][user.id] = user
         return user
 
     def create_category(self, name, category=None):
@@ -41,14 +41,20 @@ class Engine:
         return course
 
     def get_course(self, categories, name):
-        while name.endswith("_copy"):
-            name = name[:-5]
         for category in categories.values():
             for course in category.courses:
                 if course.name == name:
                     return course
-                if category.categories:
-                    course = self.get_course(category.categories, name)
-                    if course:
-                        return course
+            if category.categories:
+                course = self.get_course(category.categories, name)
+                if course:
+                    return course
         return None
+
+    def get_courses(self, categories):
+        course_list = []
+        for category in categories.values():
+            course_list.extend(category.courses)
+            if category.categories:
+                course_list.extend(self.get_courses(category.categories))
+        return course_list

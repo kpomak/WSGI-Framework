@@ -199,6 +199,10 @@ ul#menu li a {
   background: transparent;
 }
 
+ul#menu.fl-right {
+  float: right;
+}
+
 ul#menu li a:hover,
 ul#menu li.selected a,
 ul#menu li.selected a:hover {

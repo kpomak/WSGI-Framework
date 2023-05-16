@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}
+Students
+{% endblock %}
+{% block body %}
+
+<a href="/students/subscribe/">
+  <h2>Subscribe course</h2>
+</a>
+
+<h1>Students</h1>
+
+<div>
+
+  <br>
+  {% for user in context.state.users.values() %}
+  <h3>{{user.username}}</h3>
+  <ul>
+    <li><span>user-ID:&nbsp;</span> {{user.id}}</li>
+    {% if user.email %}
+    <li><span>email:&nbsp;</span>{{user.email}}</li>
+    {% endif %}
+    {% if user.phone %}
+    <li><span>phone:&nbsp;</span>{{user.phone}}</li>
+    {% endif %}
+  </ul>
+  {% endfor %}
+</div>
+{% endblock %}

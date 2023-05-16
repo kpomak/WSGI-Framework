@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}
+Courses
+{% endblock %}
+
+{% block body %}
+
+<h1>Create course</h1>
+<form method="post">
+  <div class="form_settings">
+    <p><span>Course</span><select name="course">
+        {% for course in context.courses %}
+        <option value="{{course.name}}">{{course.name}}</option>
+        {% endfor %}
+      </select></p>
+    <p><span>Student</span><select name="student_id">
+        {% for student in context.state.users.values() %}
+        <option value="{{student.id}}">{{student.username}}</option>
+        {% endfor %}
+      </select></p>
+    <p style="padding-top: 15px"><span>&nbsp;</span><input class="submit" type="submit" name="submitted"
+        value="Subscribe" />
+  </div>
+
+</form>
+
+{% endblock %}
