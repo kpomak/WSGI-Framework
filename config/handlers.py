@@ -1,4 +1,4 @@
-from config.utils import parse_request_params
+from config.middlware import parse_request_params
 
 
 class GetHandler:

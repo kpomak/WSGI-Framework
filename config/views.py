@@ -1,11 +1,15 @@
 from http import HTTPStatus
 
-from config.utils import Logger
+from config.settings import logger
 from config.generic import render
 from mainapp.engine import Engine
+from config.middlware import MapperRegistry
+from database.core import Session
 
-logger = Logger("server")
+
 engine = Engine()
+Session.new_current()
+Session.get_current().register_mappers(MapperRegistry)
 
 
 class TemplateView:

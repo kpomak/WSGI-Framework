@@ -9,8 +9,8 @@ class Session:
         self.updated_instanses = []
         self.deleted_instanses = []
 
-    def register_model(self, registry):
-        self.registry = registry
+    def register_mappers(self, registry):
+        self.registry = registry.get_registry()
 
     def add_created(self, instanse):
         self.created_instanses.append(instanse)
@@ -32,15 +32,15 @@ class Session:
 
     def insert(self):
         for instanse in self.created_instanses:
-            self.registry.get_mapper(instanse).insert(instanse)
+            self.registry[instanse.mapper].insert(instanse)
 
     def update(self):
         for instanse in self.updated_instanses:
-            self.registry.get_mapper(instanse).update(instanse)
+            self.registry[instanse.mapper].update(instanse)
 
     def delete(self):
         for instanse in self.deleted_instanses:
-            self.registry.get_mapper(instanse).delete(instanse)
+            self.registry[instanse.mapper].delete(instanse)
 
     @classmethod
     def new_current(cls):
@@ -60,3 +60,9 @@ class Objects:
 
     def delete(self):
         Session.get_current().add_deleted(self)
+
+
+if __name__ == "__main__":
+    Session.new_current()
+    session = Session.get_current()
+    print(session)

@@ -1,5 +1,3 @@
-from mainapp import views
-
 from config.handlers import params_handler
 
 

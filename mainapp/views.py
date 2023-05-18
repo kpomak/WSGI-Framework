@@ -1,8 +1,9 @@
 from http import HTTPStatus
 
 from config.generic import render
-from config.utils import route, debug
-from config.views import engine, logger, TemplateView, ListView, CreateView
+from config.middlware import route, debug
+from config.settings import logger
+from config.views import engine, TemplateView, ListView, CreateView
 from mainapp.serializers import CourseSerializer
 from mainapp.middleware import EmailNotifier, SmsNotifier
 

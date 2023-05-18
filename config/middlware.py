@@ -81,6 +81,23 @@ def debug(func):
     return timed
 
 
+class MapperRegistry(type):
+    REGISTRY = {}
+
+    def __new__(cls, name, bases, attrs):
+        new_cls = type.__new__(cls, name, bases, attrs)
+        cls.REGISTRY[new_cls.__name__] = new_cls
+        return new_cls
+
+    @classmethod
+    def get_registry(cls):
+        return dict(cls.REGISTRY)
+
+
+class BaseRegisteredClass(metaclass=MapperRegistry):
+    pass
+
+
 if __name__ == "__main__":
     print(parse_request_params("key=value&spam=eggs"))
     print(parse_request_params(""))

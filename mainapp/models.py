@@ -1,14 +1,19 @@
 from copy import deepcopy
 
 from mainapp.middleware import Subject
+from database.core import Objects
 
 
-class User:
+class User(Objects):
+    mapper = "UserMapper"
     count = 0
 
-    def __init__(self, username, email, phone):
-        self.id = User.count
-        User.count += 1
+    def __init__(self, username, email, phone, id=None):
+        if not id:
+            self.id = User.count
+            User.count += 1
+        else:
+            self.id = id
         self.username = username
         self.email = email
         self.phone = phone
