@@ -12,6 +12,7 @@ def init_db(path="db.sqlite3"):
     """
     connection = Connection(path)
     connection.execute(sql)
+    connection.close()
 
 
 if __name__ == "__main__":
