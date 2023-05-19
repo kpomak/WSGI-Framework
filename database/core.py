@@ -1,4 +1,7 @@
 from threading import local
+from sqlite3 import Connection
+
+from config.settings import DATABASE_URI
 
 
 class Session:
@@ -32,19 +35,20 @@ class Session:
 
     def insert(self):
         for instanse in self.created_instanses:
-            self.registry[instanse.mapper].insert(instanse)
+            self.registry[instanse.mapper](self.connection).insert(instanse)
 
     def update(self):
         for instanse in self.updated_instanses:
-            self.registry[instanse.mapper].update(instanse)
+            self.registry[instanse.mapper](self.connection).update(instanse)
 
     def delete(self):
         for instanse in self.deleted_instanses:
-            self.registry[instanse.mapper].delete(instanse)
+            self.registry[instanse.mapper](self.connection).delete(instanse)
 
     @classmethod
     def new_current(cls):
         cls.current.session = Session()
+        cls.current.session.connection = Connection(DATABASE_URI)
 
     @classmethod
     def get_current(cls):

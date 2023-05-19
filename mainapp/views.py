@@ -6,10 +6,14 @@ from config.settings import logger
 from config.views import engine, TemplateView, ListView, CreateView
 from mainapp.serializers import CourseSerializer
 from mainapp.middleware import EmailNotifier, SmsNotifier
+from database.core import Session
+from config.middlware import MapperRegistry
 
 
 email_notifier = EmailNotifier()
 sms_notifier = SmsNotifier()
+Session.new_current()
+Session.get_current().register_mappers(MapperRegistry)
 
 
 @route("/")
@@ -100,11 +104,13 @@ class RegisterView(CreateView):
     def create_instanse(self, data):
         username = data.get("username")
         if username:
-            engine.create_user(
+            user = engine.create_user(
                 username,
                 data.get("email"),
                 data.get("phone"),
             )
+            user.create()
+            Session.get_current().commit()
 
 
 @route("/students/")
