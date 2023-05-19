@@ -6,6 +6,7 @@ from config.settings import logger
 from config.views import engine, TemplateView, ListView, CreateView
 from mainapp.serializers import CourseSerializer
 from mainapp.middleware import EmailNotifier, SmsNotifier
+from mainapp.models import User
 from database.core import Session
 from config.middlware import MapperRegistry
 
@@ -114,8 +115,14 @@ class RegisterView(CreateView):
 
 
 @route("/students/")
-class CoursesListView(ListView):
+class StudentsListView(ListView):
     template_name = "students_list.html"
+
+    def get_context(self, request):
+        users = Session.get_current().get_mapper(User).all()
+        for user in users:
+            engine.state["users"][user.id] = user
+        request["state"] = engine.state
 
 
 @route("/students/subscribe/")

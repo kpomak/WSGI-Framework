@@ -15,6 +15,9 @@ class Session:
     def register_mappers(self, registry):
         self.registry = registry.get_registry()
 
+    def get_mapper(self, model):
+        return self.registry[model.mapper](self.connection)
+
     def add_created(self, instanse):
         self.created_instanses.append(instanse)
 

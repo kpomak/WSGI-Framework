@@ -16,7 +16,7 @@ class UserMapper(BaseRegisteredClass):
         sql = f"SELECT * FROM {self.tablename};"
         self.cursor.execute(sql)
         result = []
-        for row in self.connection.fetchall():
+        for row in self.cursor.fetchall():
             id, username, email, phone = row
             user = User(username, email, phone, id)
             result.append(user)
