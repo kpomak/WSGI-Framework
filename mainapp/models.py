@@ -23,7 +23,7 @@ class UserMapper(BaseRegisteredClass):
         return result
 
     def find_by_id(self, id):
-        sql = f"SELECT id, name FROM {self.tablename} WHERE id=?"
+        sql = f"SELECT id, username, email, phone FROM {self.tablename} WHERE id=?"
         self.cursor.execute(sql, (id,))
         result = self.cursor.fetchone()
         if result:

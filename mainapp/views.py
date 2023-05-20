@@ -130,12 +130,20 @@ class SubscribeView(CreateView):
     template_name = "subscribe_course.html"
 
     @debug
+    def get_context(self, request):
+        super().get_context(request)
+        users = Session.get_current().get_mapper(User).all()
+        for user in users:
+            engine.state["users"][user.id] = user
+        request["state"] = engine.state
+
+    @debug
     def create_instanse(self, data):
         course_name = data.get("course")
         student_id = data.get("student_id")
         if course_name and student_id:
             course = engine.get_course(engine.state["categories"], course_name)
-            student = engine.state["users"][int(student_id)]
+            student = Session.get_current().get_mapper(User).find_by_id(int(student_id))
             if student not in course.students:
                 course.add_student(student)
 
