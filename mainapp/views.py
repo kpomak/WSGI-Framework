@@ -1,14 +1,20 @@
 from http import HTTPStatus
 
 from config.generic import render
-from config.utils import route, debug
-from config.views import engine, logger, TemplateView, ListView, CreateView
+from config.middlware import route, debug
+from config.settings import logger
+from config.views import engine, TemplateView, ListView, CreateView
 from mainapp.serializers import CourseSerializer
 from mainapp.middleware import EmailNotifier, SmsNotifier
+from mainapp.models import User
+from database.core import Session
+from config.middlware import MapperRegistry
 
 
 email_notifier = EmailNotifier()
 sms_notifier = SmsNotifier()
+Session.new_current()
+Session.get_current().register_mappers(MapperRegistry)
 
 
 @route("/")
@@ -99,16 +105,24 @@ class RegisterView(CreateView):
     def create_instanse(self, data):
         username = data.get("username")
         if username:
-            engine.create_user(
+            user = engine.create_user(
                 username,
                 data.get("email"),
                 data.get("phone"),
             )
+            user.create()
+            Session.get_current().commit()
 
 
 @route("/students/")
-class CoursesListView(ListView):
+class StudentsListView(ListView):
     template_name = "students_list.html"
+
+    def get_context(self, request):
+        users = Session.get_current().get_mapper(User).all()
+        for user in users:
+            engine.state["users"][user.id] = user
+        request["state"] = engine.state
 
 
 @route("/students/subscribe/")
@@ -116,12 +130,20 @@ class SubscribeView(CreateView):
     template_name = "subscribe_course.html"
 
     @debug
+    def get_context(self, request):
+        super().get_context(request)
+        users = Session.get_current().get_mapper(User).all()
+        for user in users:
+            engine.state["users"][user.id] = user
+        request["state"] = engine.state
+
+    @debug
     def create_instanse(self, data):
         course_name = data.get("course")
         student_id = data.get("student_id")
         if course_name and student_id:
             course = engine.get_course(engine.state["categories"], course_name)
-            student = engine.state["users"][int(student_id)]
+            student = Session.get_current().get_mapper(User).find_by_id(int(student_id))
             if student not in course.students:
                 course.add_student(student)
 

@@ -1,10 +1,10 @@
 from http import HTTPStatus
 
-from config.utils import Logger
+from config.settings import logger
 from config.generic import render
 from mainapp.engine import Engine
 
-logger = Logger("server")
+
 engine = Engine()
 
 
