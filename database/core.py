@@ -2,10 +2,12 @@ from threading import local
 from sqlite3 import Connection
 
 from config.settings import DATABASE_URI
+from database.exception import IdentityMapError
 
 
 class Session:
     current = local()
+    user_map = {}
 
     def __init__(self):
         self.created_instanses = []
@@ -56,6 +58,18 @@ class Session:
     @classmethod
     def get_current(cls):
         return cls.current.session
+
+    @classmethod
+    def add_user(cls, user):
+        if user.id not in cls.user_map.keys():
+            cls.user_map[user.id] = user
+
+    @classmethod
+    def get_user(cls, key):
+        try:
+            user = cls.user_map[key]
+        except KeyError:
+            raise IdentityMapError()
 
 
 class Objects:

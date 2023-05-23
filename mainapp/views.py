@@ -111,6 +111,7 @@ class RegisterView(CreateView):
                 data.get("phone"),
             )
             user.create()
+            Session.get_current().add_user(user)
             Session.get_current().commit()
 
 
